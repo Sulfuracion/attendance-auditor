@@ -1,0 +1,1 @@
+"""Attendance Auditor source package."""

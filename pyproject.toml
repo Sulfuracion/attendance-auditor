@@ -1,0 +1,85 @@
+[tool.poetry]
+name = "attendance-auditor"
+version = "0.1.0"
+description = "Auditor de Asistencia y Conciliación Laboral Vectorizada"
+authors = ["Attendance Auditor Team <admin@attendance-auditor.local>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.142.0"
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
+pandas = "^2.2.0"
+numpy = "^2.0.0"
+openpyxl = "^3.1.5"
+pydantic = {extras = ["email"], version = "^2.10.0"}
+pydantic-settings = "^2.7.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.36"}
+asyncpg = "^0.31.0"
+python-magic = "^0.4.27"
+argon2-cffi = "^25.1.0"
+pyjwt = "^2.15.0"
+python-multipart = ">=0.0.20"
+alembic = "^1.14.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.1.0"
+pytest-asyncio = ">=1.0.0"
+ruff = "^0.9.0"
+mypy = "^1.14.0"
+bandit = "^1.8.0"
+pip-audit = "^2.7.3"
+aiosqlite = "^0.22.0"
+httpx = "^0.28.0"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG", # flake8-unused-arguments
+    "SIM", # flake8-simplify
+    "S",   # flake8-bandit
+]
+ignore = [
+    "B008", # FastAPI Depends calls in parameter defaults
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106", "ARG"]
+"alembic/*" = ["E501", "UP007", "UP035", "I001"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+    "magic.*",
+    "openpyxl.*",
+    "asyncpg.*",
+    "pandas.*",
+]
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
